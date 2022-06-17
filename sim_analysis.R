@@ -2,7 +2,7 @@
 # This script is to run simulated data by mix-lasso or tree lasso model
 #
 # author: Zhi Zhao (zhi.zhao@medisin.uio.no)
-# date: 16-Apr-2022
+# date: 17-Jun-2022
 #================================================================================================================
 
 rm(list = ls())
@@ -16,13 +16,17 @@ n <- 300
 m <- 24*5
 p <- 1000
 t0 <- 10
+
 ## simulate learning dataset
 # simulation scenario 1
 sim <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(.5, .5,rep(.5,t0/2-2),rep(.5,t0/2)),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
-## simulation scenario 2
-#sim <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(-.5, -.5,rep(.5,t0/2-2),rep(.5,t0/2)),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
-## simulation scenario 3
-#sim <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(rep(.4,t0/5),rep(.6,t0/5),rep(.8,t0/5),rep(1.0,t0/5),rep(1.2,t0/5)),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
+# simulation scenario 2
+sim <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(-.5, -.5,rep(.5,t0/2-2),rep(.5,t0/2)),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
+# simulation scenario 3
+sim <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(rep(.4,t0/5),rep(.6,t0/5),rep(.8,t0/5),rep(1.0,t0/5),rep(1.2,t0/5)),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
+# simulation scenario 4
+sim <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(-.7,-.5,-.3,.2,.4,.6,.8,1,1.2,1.4),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
+
 y <- sim$Y
 x <- sim$X
 z <- sim$Z
@@ -31,10 +35,13 @@ t.idx <- sim$t.idx
 ## simulate validation dataset
 # simulation scenario 1
 sim_test <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(.5, .5,rep(.5,t0/2-2),rep(.5,t0/2)),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
-## simulation scenario 2
-#sim_test <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(-.5, -.5,rep(.5,t0/2-2),rep(.5,t0/2)),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
-## simulation scenario 3
-#sim_test <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(rep(.4,t0/5),rep(.6,t0/5),rep(.8,t0/5),rep(1.0,t0/5),rep(1.2,t0/5)),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
+# simulation scenario 2
+sim_test <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(-.5, -.5,rep(.5,t0/2-2),rep(.5,t0/2)),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
+# simulation scenario 3
+sim_test <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(rep(.4,t0/5),rep(.6,t0/5),rep(.8,t0/5),rep(1.0,t0/5),rep(1.2,t0/5)),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
+# simulation scenario 4
+sim_test <- sim1(p=p, n=n, m=m, rho=0.4, t0=t0, B.mix=matrix(rep(c(-.7,-.5,-.3,.2,.4,.6,.8,1,1.2,1.4),length(p)),ncol=length(p)), stratum.predictor=T,t.prob=rep(1/t0,t0),sigma.u=1,tg.cov=NULL)
+
 y_test <- sim_test$Y
 x_test <- sim_test$X
 z_test <- sim_test$Z

@@ -2,7 +2,7 @@
 # This script is to run the preprocessed CTRP data by mix-lasso or tree lasso model
 #
 # author: Zhi Zhao (zhi.zhao@medisin.uio.no)
-# date: 16-Apr-2022
+# date: 17-Jun-2022
 #================================================================================================================
 
 rm(list = ls())
@@ -125,7 +125,7 @@ t.idx_test <- t.idx_test[!is.na(rowSums(auc.ctrp_test))]
 auc.ctrp_test <- auc.ctrp_test[!is.na(rowSums(auc.ctrp_test)),]
 all.ctrp_test <- cbind(tissue.dum_test, all.ctrp_test)#[,1:1000]
 
-##select colorectal(n=17,t.idx=4)/glioma(n=16,t.idx=7)/melanoma(n=23,t.idx=12)/ovary(n=17,t.idx=14)
+## select once cancer type, e.g. colorectal(n=17,t.idx=4), glioma(n=16,t.idx=7), melanoma(n=23,t.idx=12)
 i <- 4
 foldid <- foldid[t.idx==i]
 auc.ctrp <- auc.ctrp[t.idx==i,]

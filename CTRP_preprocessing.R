@@ -2,7 +2,7 @@
 # This script is to preproccess CTRP data
 #
 # author: Zhi Zhao (zhi.zhao@medisin.uio.no)
-# date: 16-Apr-2022
+# date: 17-Jun-2022
 #================================================================================================================
 
 rm(list = ls())
@@ -34,10 +34,9 @@ y1 <- y
 y1 <- y1[!y1[,1] %like% ":",]
 rownames(y1) <- y1[,1]; y1 <- y1[,-1]
 colnames(y1) <- substr(colnames(y1), 18, nchar(colnames(y1)))
-
 auc.ctrp <- y1
 
-### genomic data are from CCLE with the same measured cell lines in CTRP
+### genomic data are from CCLE via PharmacoGx package with the same measured cell lines in CTRP
 availablePSets()
 CCLE <- downloadPSet("CCLE_2015")
 
@@ -67,7 +66,7 @@ cell.type[cell.type=="lung_NSC"] <- cell.type2[cell.type=="lung_NSC"]
 
 tissue.ctrp <- data.frame(name=tissue.ctrp$Name, cell.type=cell.type)
 tissue.ctrp <- tissue.ctrp[tissue.ctrp$cell.type!="",]
-# choose each tissue at least 20 cell lines?
+# choose each tissue at least 15 cell lines
 tissue.ctrp <- tissue.ctrp[ tissue.ctrp$cell.type %in% names(table(tissue.ctrp$cell.type))[table(tissue.ctrp$cell.type)>15], ]
 tissue.ctrp$cell.type <- as.vector(tissue.ctrp$cell.type)
 
@@ -161,7 +160,7 @@ map.idx <- gene_info$gene_id %in% rownames(rna.ctrp)
 map.genes <- gene_info[map.idx,2:3]
 map.genes <- map.genes[sort.list(map.genes$probe_id),]
 rownames(rna.ctrp)[1:nrow(map.genes)] <- map.genes$gene_name
-## "ENSG00000275234" "ENSG00000275342" "ENSG00000276644" "ENSG00000277443" "ENSG00000277586" "ENSG00000278291" "ENSG00000278828"
+## manually match gene symbols for ensembl-IDs: "ENSG00000275234" "ENSG00000275342" "ENSG00000276644" "ENSG00000277443" "ENSG00000277586" "ENSG00000278291" "ENSG00000278828"
 rownames(rna.ctrp)[-(1:nrow(map.genes))] <- c("AC010503.4", "PRAG1", "DACH1", "MARCKS", "NEFL", "AL161772.1", "H3C10")
 
 save(auc.ctrp, file="cellminer_ctrp_auc_preselect.RData")
